@@ -21,7 +21,7 @@ func main() {
 	httpClient, err := gh.HTTPClient(nil)
 	if err != nil {
 		fmt.Printf("Unable to create GitHub client: %s\n", err.Error())
-		return
+		os.Exit(1)
 	}
 
 	ctx := context.Background()
