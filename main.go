@@ -29,18 +29,19 @@ func main() {
 
 	since := time.Now()
 	since = time.Date(since.Year(), since.Month(), 1, 0, 0, 0, 0, time.UTC)
+
+	fmt.Printf("Retrieving issue statistics for %s/%s...\n", repo.Owner(), repo.Name())
 	retrieveIssueStatistics(ctx, since, repo, client)
 
 }
 
 func retrieveIssueStatistics(ctx context.Context, since time.Time, repo repository.Repository, client *github.Client) {
-	var issues []*github.Issue
 	opts := &github.IssueListByRepoOptions{
 		State:       "all",
 		Since:       since,
 		ListOptions: github.ListOptions{PerPage: 100},
 	}
-	fmt.Printf("Retrieving issue statistics for %s/%s...\n", repo.Owner(), repo.Name())
+	var issues []*github.Issue
 	for {
 		list, resp, err := client.Issues.ListByRepo(ctx, repo.Owner(), repo.Name(), opts)
 		if err != nil {
@@ -53,6 +54,7 @@ func retrieveIssueStatistics(ctx context.Context, since time.Time, repo reposito
 		}
 		opts.Page = resp.NextPage
 	}
+
 	var canonicalIssues []*github.Issue
 	var canonicalPullRequests []*github.Issue
 	for _, issue := range issues {
