@@ -3,11 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
+	"time"
+
 	"github.com/cli/go-gh"
 	"github.com/cli/go-gh/pkg/repository"
 	"github.com/google/go-github/v42/github"
-	"os"
-	"time"
 )
 
 func main() {
